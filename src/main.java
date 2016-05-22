@@ -9,6 +9,21 @@ public class main {
 		Hand h = new Hand();		
 		ds.shuffleDeck();
 		
+//		Card c1 = new Card(2,"SPADE");
+//		Card c2 = new Card(13,"CLUB");
+//		Card c3 = new Card(4,"DIAMOND");
+//		Card c4 = new Card(3,"DIAMOND");
+//		Card c5 = new Card(6,"DIAMOND");
+//		Card c6 = new Card(14,"SPADE");
+//		Card c7 = new Card(5,"DIAMOND");
+		
+//		h.addCardTohandOfCards(c1);
+//		h.addCardTohandOfCards(c2);
+//		h.addCardTohandOfCards(c3);
+//		h.addCardTohandOfCards(c4);
+//		h.addCardTohandOfCards(c5);
+//		h.addCardTohandOfCards(c6);
+//		h.addCardTohandOfCards(c7);
 		
 		h.addCardTohandOfCards(ds.drawACard());
 		h.addCardTohandOfCards(ds.drawACard());
@@ -17,20 +32,13 @@ public class main {
 		h.addCardTohandOfCards(ds.drawACard());
 		h.addCardTohandOfCards(ds.drawACard());
 		h.addCardTohandOfCards(ds.drawACard());
-		h.addCardTohandOfCards(ds.drawACard());
-		h.addCardTohandOfCards(ds.drawACard());
-		h.addCardTohandOfCards(ds.drawACard());
+
+
 		
 		System.out.println(h.getHandOfCards().toString()+"\n");
-//		tx.onePair(h.getHandOfCards());
-//		tx.twoPair(h.getHandOfCards());
-//		tx.highCard(h.getHandOfCards());
-//		tx.threeOfAKind(h.getHandOfCards());
-//		tx.fourOfAKind(h.getHandOfCards());
-//		tx.straight(h.getHandOfCards());
-		tx.flush(h.getHandOfCards());
-//		tx.fullHouse(h.getHandOfCards());
-//		tx.straightFlush(h.getHandOfCards());
+
+		tx.checkForCombination(h);
+		
 		//System.out.println(ds.drawACard().toString());
 	}
 

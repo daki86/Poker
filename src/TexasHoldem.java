@@ -1,4 +1,6 @@
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -29,8 +31,6 @@ public class TexasHoldem {
 	}
 	
 	public int checkForCombination(Hand hand){
-		int card1 = 0;
-		int card2 = 1;
 		int value = 0;
 		ArrayList<Card> temp = communityCard;
 		
@@ -38,62 +38,91 @@ public class TexasHoldem {
 			temp.add(c);
 		}
 		
-	/*	if(){
-			
-		}else if(){
-			
-		}else if(){
-			
-		}else if(){
-			
-		}else if(){
-			
-		}else if(){
-			
-		}else if(){
-			
-		}else if(){
-			
-		}else if(){
-			
-		}*/
-		
-		//ONE PAIR
-		//TWO PAIR
-		//THREE OF A KIND
-		//STRAIGHT
-		//FLUSH
-		//FULL HOUSE
-		//FOUR OF A KIND
-		//STRAIGHT FLUSH
-		//ROYAL FLUSH
+		if(straightRoyalFlush(temp)){
+			System.out.println("Straight royal flush!");
+			value = 9;
+		}else if(straightFlush(temp)){
+			System.out.println("Straight flush!");
+			value = 8;
+		}else if(fourOfAKind(temp)){
+			System.out.println("Four of a kind!");
+			value = 7;
+		}else if(fullHouse(temp)){
+			System.out.println("Full house!");
+			value = 6;
+		}else if(!flush(temp).equals("")){
+			System.out.println("Flush!");
+			value = 5;
+		}else if(straight(temp) != 0){
+			System.out.println("Straight!");
+			value = 4;
+		}else if(threeOfAKind(temp)){
+			System.out.println("Three of a kind!");
+			value = 3;
+		}else if(twoPair(temp)){
+			System.out.println("Two pair!");
+			value = 2;
+		}else if(onePair(temp)){
+			System.out.println("One pair!");
+			value = 1;
+		}else{
+			System.out.println("High card: "+highCard(temp));
+		}
 		
 		temp.clear();
 		
 		return value;
 	}
 
-	public boolean straightFlush(ArrayList<Card> cards){
+	public boolean straightRoyalFlush(ArrayList<Card> cards){
 		boolean found = false;
-		
 		DeckOfCards temp = new DeckOfCards(cards);
-		ArrayList<Card> holder = new ArrayList<Card>();
-		
+		String suit = flush(cards);
+		int value = straight(cards);
+		int nextValue = value;
 		int counter = 0;
-		int [] value = new int[5];
+		
 		temp.sortDeck();
-//		temp.print();
 		
-		int nextValue = temp.getDeck().get(0).getValue();
-		
-		
+		if(value == 14 && suit != ""){
+			for(Card c:temp.getDeck()){
+				if(c.getSuit().equals(suit) && c.getValue() == nextValue){
+					nextValue = nextValue-1;
+					counter++;
+				}
+			}
+		}
 		
 		if(counter >= 5){
-			
 			found = true;
 		}
 		
-		System.out.println("Straight flush: "+found);
+		return found;
+	}
+	
+	public boolean straightFlush(ArrayList<Card> cards){
+		boolean found = false;
+		DeckOfCards temp = new DeckOfCards(cards);
+		String suit = flush(cards);
+		int value = straight(cards);
+		int nextValue = value;
+		int counter = 0;
+		
+		temp.sortDeck();
+		
+		if(suit != ""){
+			for(Card c:temp.getDeck()){
+				if(c.getSuit().equals(suit) && c.getValue() == nextValue){
+					nextValue = nextValue-1;
+					counter++;
+				}
+			}
+		}
+		
+		if(counter >= 5){
+			found = true;
+		}
+		
 		return found;
 	}
 	
@@ -115,7 +144,6 @@ public class TexasHoldem {
 			counter = 0;
 		}
 		
-//		System.out.println("Four of a kind: "+valueHolder);
 		return found;
 	}
 
@@ -141,24 +169,22 @@ public class TexasHoldem {
 			counter = 0;
 		}
 		
-//		System.out.println("Full house: "+found);
 		return found;
 	}
 	
-	public boolean flush(ArrayList<Card> cards){
-		boolean found = false;
+	public String flush(ArrayList<Card> cards){
 		DeckOfCards temp = new DeckOfCards(cards);
-		
+		String suit = "";
 		int counter = 0;
 		
 		temp.sortDeck();
-		temp.print();
+		
 		for(Card c1:temp.getDeck()){
 			for(Card c2:temp.getDeck()){
 				if(c1.getSuit().equals(c2.getSuit())){
 					counter++;
 					if(counter >= 5){
-						found = true;
+						suit = c1.getSuit();
 						break;
 					}
 				}
@@ -166,33 +192,40 @@ public class TexasHoldem {
 			counter = 0;
 		}
 		
-		System.out.println("Flush: "+found);
-		return found;
+		return suit;
 	}
 	
-	public boolean straight(ArrayList<Card> cards){
-		boolean found = false;
+	public int straight(ArrayList<Card> cards){
 		DeckOfCards temp = new DeckOfCards(cards);
-		
+		int nextValue = temp.getDeck().get(0).getValue();
+		int highValue = 0;
 		int counter = 0;
 		
-		temp.sortDeckByValue();
-		temp.print();
-		int nextValue = temp.getDeck().get(0).getValue();
-		
-		for(Card c:temp.getDeck()){
-			if(nextValue == c.getValue()){
-				nextValue = 1-c.getValue();
-				counter++;
+		temp.sortDeckByValue();	
+
+		for(int i=0; i<temp.getDeck().size(); i++){
+			nextValue = temp.getDeck().get(i).getValue();
+			
+			for(int x=0; x<temp.getDeck().size(); x++){
+				if(nextValue == temp.getDeck().get(x).getValue()){
+					if(highValue < nextValue){
+						highValue = nextValue;
+					}
+					
+					nextValue = nextValue-1;
+					counter++;
+				}
+			}
+			
+			if(counter >= 5){
+				break;
+			}else{
+				counter = 0;
+				highValue = 0;
 			}
 		}
 		
-		if(counter >= 5){
-			found = true;
-		}
-		
-		System.out.println("Straight: "+found);
-		return found;
+		return highValue;
 	}
 	
 	public boolean threeOfAKind(ArrayList<Card> cards){
@@ -213,7 +246,6 @@ public class TexasHoldem {
 			counter = 0;
 		}
 		
-//		System.out.println("Three of a kind: "+valueHolder);
 		return found;
 	}
 	
@@ -234,7 +266,6 @@ public class TexasHoldem {
 			found = true;
 		}
 		
-//		System.out.println("Two pair: "+pair+" and "+pair2);
 		return found;
 	}
 	
@@ -250,19 +281,22 @@ public class TexasHoldem {
 				}
 			}
 		}
-//		System.out.println("Highest pair: "+pair);
+
 		return found;
 	}
 	
-	public int highCard(ArrayList<Card> cards){
-		int highCard = 0;
+	public Card highCard(ArrayList<Card> cards){
+		int highValue = 0;
+		Card highCard = new Card(0,"");
 		
 		for(Card c1:cards){
-			if(c1.getValue() > highCard){
-					highCard = c1.getValue();	
+			if(c1.getValue() > highValue){
+				highValue = c1.getValue();
+				highCard.setSuit(c1.getSuit());
+				highCard.setValue(c1.getValue());
 			}
 		}
-//		System.out.println("highCard: "+highCard);
+
 		return highCard;
 	}
 }
