@@ -40,33 +40,34 @@ public class TexasHoldem {
 		
 		if(straightRoyalFlush(temp)){
 			System.out.println("Straight royal flush!");
-			value = 9;
+			value = 23;
 		}else if(straightFlush(temp)){
 			System.out.println("Straight flush!");
-			value = 8;
+			value = 22;
 		}else if(fourOfAKind(temp)){
 			System.out.println("Four of a kind!");
-			value = 7;
+			value = 21;
 		}else if(fullHouse(temp)){
 			System.out.println("Full house!");
-			value = 6;
+			value = 20;
 		}else if(!flush(temp).equals("")){
 			System.out.println("Flush!");
-			value = 5;
+			value = 19;
 		}else if(straight(temp) != 0){
 			System.out.println("Straight!");
-			value = 4;
+			value = 18;
 		}else if(threeOfAKind(temp)){
 			System.out.println("Three of a kind!");
-			value = 3;
+			value = 17;
 		}else if(twoPair(temp)){
 			System.out.println("Two pair!");
-			value = 2;
+			value = 16;
 		}else if(onePair(temp)){
 			System.out.println("One pair!");
-			value = 1;
+			value = 15;
 		}else{
 			System.out.println("High card: "+highCard(temp));
+			value = highCard(temp).getValue();
 		}
 		
 		temp.clear();

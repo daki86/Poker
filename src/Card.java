@@ -34,23 +34,23 @@ public class Card {
 		
 		switch (this.value){
 		case 11:
-			card = this.suit +" "+cardValue.JACK;
+			card = cardValue.JACK+" OF "+this.suit;
 			break;
 			
 		case 12:
-			card = this.suit +" "+cardValue.QUEEN;
+			card = cardValue.QUEEN+" OF "+this.suit;
 			break;
 			
 		case 13:
-			card = this.suit +" "+cardValue.KING;
+			card = cardValue.KING+" OF "+this.suit;
 			break;
 			
 		case 14:
-			card = this.suit +" "+cardValue.ACE;
+			card = cardValue.ACE+" OF "+this.suit;
 			break;
 			
 		default:
-			card = this.suit +" "+this.value;
+			card = this.value+" OF "+this.suit;
 			break;
 		}
 		

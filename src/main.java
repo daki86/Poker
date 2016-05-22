@@ -34,9 +34,10 @@ public class main {
 		h.addCardTohandOfCards(ds.drawACard());
 
 
-		
-		System.out.println(h.getHandOfCards().toString()+"\n");
+		for(int i=0; i<h.getHandOfCards().size(); i++)
+		System.out.println(h.getHandOfCards().get(i));
 
+		System.out.println();
 		tx.checkForCombination(h);
 		
 		//System.out.println(ds.drawACard().toString());
